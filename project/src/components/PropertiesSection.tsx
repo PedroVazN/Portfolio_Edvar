@@ -3,17 +3,17 @@ import React from 'react';
 const properties = [
   {
     id: 1,
-    image: 'https://via.placeholder.com/400',
-    title: 'Apartamento Luxuoso',
+    image: 'https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/imv1/ft_im_1.jpg?raw=true',
+    title: 'Apartamento Ipiranga',
     location: 'São Paulo, SP',
-    price: 'R$ 850.000',
+    price: 'R$ 4.992,00/mês ',
     bedrooms: 3,
     bathrooms: 2,
-    area: '120m²'
+    area: '70 m²'
   },
   {
     id: 2,
-    image: 'https://via.placeholder.com/400',
+    image: 'https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/imv2/ft_imv_15.jpg?raw=true',
     title: 'Casa Moderna',
     location: 'Rio de Janeiro, RJ',
     price: 'R$ 1.200.000',
