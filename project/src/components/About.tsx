@@ -8,7 +8,7 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <img
-              src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/image%20(1).png?raw=true"
+              src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/edvar.png?raw=true"
               alt="Edvar Profissional"
               className="rounded-lg shadow-xl w-full h-[600px] object-cover"
             />
@@ -17,7 +17,7 @@ const About = () => {
           <div>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Sobre Edvar Profissional</h2>
             <p className="text-lg text-gray-600 mb-8">
-              Com mais de 15 anos de experiência no mercado imobiliário, nossa missão é proporcionar 
+              Com mais de 7 anos de experiência no mercado imobiliário, nossa missão é proporcionar 
               as melhores soluções para nossos clientes, sempre com transparência, profissionalismo 
               e dedicação.
             </p>

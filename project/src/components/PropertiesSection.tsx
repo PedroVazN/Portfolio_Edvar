@@ -15,18 +15,18 @@ const properties = [
     id: 2,
     image: 'https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/imv2/ft_imv_15.jpg?raw=true',
     title: 'Casa Moderna',
-    location: 'Rio de Janeiro, RJ',
-    price: 'R$ 1.200.000',
-    bedrooms: 4,
+    location: 'São Paulo - SP, Ipiranga',
+    price: ' R$ 4.992,00/mês',
+    bedrooms: 3,  
     bathrooms: 3,
-    area: '250m²'
+    area: '115 m² '
   },
   {
     id: 3,
-    image: 'https://via.placeholder.com/400',
-    title: 'Studio Aconchegante',
-    location: 'Belo Horizonte, MG',
-    price: 'R$ 450.000',
+    image: 'https://imgs.kenlo.io/VWRCUkQ2Tnp3d1BJRDBJVe1szkhnWr9UfpZS9ftWwjXgr7v5Znen3XVcMHllDVRJJeIbi3YwVYEtu2E+2uxcujlnku0yZ7aRrQeI59uKuNeiskbG39b4go7ljsbgWsjU2Lwj-KzMNE6znJ5CV4IkE2JSP7VNTxXIeYK+DWF8nmS2jxX-EuBIXVEJ+jljoAhV+XSyT7aq5mcg+CL5PNidsAjcQYHEIXZ-HOBHR9ox7ltMqBezU0J8p0oF7Jq1qTLdaOenJpi9yWxNWAZ8vJq+TqjzwtiOK59nSeUyO3cb51URUaJf1-aKA+9jrwcLou-TCwSW3hrDkec3f8vtBcFKnqAFiA7KE+FJ7Ui7l9fCgfD-OkuGMVo9ob3JrqfnO-amS6DxOWSjh5Y8-5DXLcNXLIu0BGcLQnhwYn5R+x-n+KGLrkerLniV5BBfQwGA.jpg',
+    title: 'Apartamento de Luxo',
+    location: 'São Paulo - SP, Ipiranga ',
+    price: 'R$ 7.500/mês',
     bedrooms: 1,
     bathrooms: 1,
     area: '45m²'

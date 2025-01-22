@@ -9,10 +9,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Building2 className="h-8 w-8 text-blue-900" />
-            <span className="ml-2 text-xl font-bold text-blue-900">Edvar Profissional</span>
+            <img
+              src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/logo.png?raw=true"
+              className="w-32 md:w-48 lg:w-48 max-w-full h-auto mt-6 mb-4"
+              alt="Logo"
+            />
           </div>
-          
+
           <div className="hidden md:flex items-center space-x-8">
             <a href="#inicio" className="text-gray-700 hover:text-blue-900">Início</a>
             <a href="#sobre" className="text-gray-700 hover:text-blue-900">Sobre</a>
