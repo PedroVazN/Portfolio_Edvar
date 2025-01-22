@@ -8,7 +8,7 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <img
-              src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/edvarlogo.png?raw=true"
+              src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/edvarlogo2.png?raw=truewsd"
               alt="Edvar Profissional"
               className="rounded-lg shadow-xl w-full h-[600px] object-cover"
             />

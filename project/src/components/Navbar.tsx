@@ -19,6 +19,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <a href="#inicio" className="text-gray-700 hover:text-blue-900">Início</a>
             <a href="#sobre" className="text-gray-700 hover:text-blue-900">Sobre</a>
+            <a href="/add-property" className="text-gray-700 hover:text-blue-900">Cadastrar Imóvel</a>
             <a href="#servicos" className="text-gray-700 hover:text-blue-900">Serviços</a>
             <a href="#depoimentos" className="text-gray-700 hover:text-blue-900">Depoimentos</a>
             <a href="#contato" className="text-gray-700 hover:text-blue-900">Contato</a>
