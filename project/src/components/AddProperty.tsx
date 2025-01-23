@@ -32,16 +32,16 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     try {
-      const response = await fetch('https://corretoredvar.com.br/api/properties', {
+      const response = await fetch('https://backendedvar.netlify.app/api/properties', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(property),
       });
-
+  
       if (response.ok) {
         const result = await response.json();
         alert(result.message); // Mensagem de sucesso
@@ -71,6 +71,7 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
       alert('Erro ao conectar ao servidor.');
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-50">

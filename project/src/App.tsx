@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch('https://corretoredvar.com.br/api/properties');
+        const response = await fetch('https://backendedvar.netlify.app/api/properties');
         if (!response.ok) {
           throw new Error('Erro ao buscar imóveis.');
         }
@@ -43,9 +43,10 @@ function App() {
         console.error('Erro de conexão:', error);
       }
     };
-
+  
     fetchProperties();
   }, []);
+  
 
   return (
     <Router>
