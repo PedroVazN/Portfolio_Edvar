@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void }) => {
   const [property, setProperty] = useState({
     title: '',
@@ -33,7 +34,7 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
     e.preventDefault();
 
     try {
-      const response = await fetch('http://corretoredvar.com.br/api/properties', {
+      const response = await fetch('https://corretoredvar.com.br/api/properties', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
