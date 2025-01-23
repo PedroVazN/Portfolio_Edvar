@@ -8,8 +8,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center mb-4">
-              <Building2 className="h-8 w-8" />
-              <span className="ml-2 text-xl font-bold">Edvar Profissional</span>
+    
+              <span className="ml-2 text-xl font-bold">Edvar Ferreira</span>
             </div>
             <p className="text-gray-400">
               Seu parceiro de confiança no mercado imobiliário.
@@ -30,11 +30,17 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Contato</h3>
             <ul className="space-y-2">
-              <li className="text-gray-400">(11) 99999-9999</li>
-              <li className="text-gray-400">contato@edvarprofissional.com.br</li>
+              <li className="text-gray-400">(11) 94701-3673</li>
+              <li className="text-gray-400">edvar@corretoredvar.com.br</li>
               <li className="text-gray-400">
-                Av. Paulista, 1000 - Bela Vista<br />
-                São Paulo - SP, 01310-100
+              Ipiranga - 
+                  Alto do Ipiranga - 
+                  Vila Mariana - 
+                  Saúde - 
+                  Cambuci - 
+                  Sacomã - <br />
+                  Entre todos grandes Bairros de São Paulo!!!
+                  
               </li>
             </ul>
           </div>
@@ -42,7 +48,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Redes Sociais</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white">
+              <a href="https://www.instagram.com/corretor.edvar/" className="text-gray-400 hover:text-white">
                 <Instagram className="h-6 w-6" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
