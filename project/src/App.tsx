@@ -86,7 +86,7 @@ function App() {
           <img 
             src="https://cdn-icons-png.flaticon.com/512/124/124034.png" 
             alt="WhatsApp" 
-            className="w-10 h-10"
+            className="w-10 h-10"  
           />
         </a>
 

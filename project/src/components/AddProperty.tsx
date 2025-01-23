@@ -34,13 +34,14 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
     e.preventDefault();
   
     try {
-      const response = await fetch('https://backendedvar.netlify.app/api/properties', {
-        method: 'POST',
+      const response = await fetch('https://back-end-portfolio-edvar.vercel.app/api/properties', {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(property),
+        mode: 'cors',
       });
+      
   
       if (response.ok) {
         const result = await response.json();
