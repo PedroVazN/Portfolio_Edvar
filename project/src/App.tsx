@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch('http://corretoredvar.com.br/api/properties');
+        const response = await fetch('https://corretoredvar.com.br/api/properties');
         if (!response.ok) {
           throw new Error('Erro ao buscar imóveis.');
         }
