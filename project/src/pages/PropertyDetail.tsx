@@ -43,7 +43,7 @@ const PropertyDetail: React.FC = () => {
         setProperty(data);
 
         // Fetch similar properties (mock data for example)
-        const similarResponse = await fetch('http://localhost:5000/api/properties');
+        const similarResponse = await fetch('https://back-end-portfolio-edvar.vercel.app/api/properties');
         const allProperties = await similarResponse.json();
         const similar = allProperties
           .filter((p: Property) => p._id !== id)
