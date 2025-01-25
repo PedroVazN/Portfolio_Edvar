@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-
 const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void }) => {
   const [property, setProperty] = useState({
     title: '',
@@ -32,17 +31,17 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+    
     try {
-      const response = await fetch('/api/properties', {
-        method: 'POST',
-        body: JSON.stringify(property),
+      const response = await fetch('http://localhost:5000/api/properties', {
+        method: 'POST', // Alterado de GET para POST
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(property), // Envia o imóvel no corpo da requisição
+        mode: 'cors',
       });
-      
-  
+    
       if (response.ok) {
         const result = await response.json();
         alert(result.message); // Mensagem de sucesso
@@ -72,6 +71,7 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
       alert('Erro ao conectar ao servidor.');
     }
   };
+  
   
 
   return (

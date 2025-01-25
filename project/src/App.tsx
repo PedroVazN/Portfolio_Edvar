@@ -25,7 +25,6 @@ interface Property {
 function App() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
 
   const addNewProperty = (newProperty: Property) => {
     setProperties((prev) => [...prev, newProperty]);
@@ -34,10 +33,9 @@ function App() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        setLoading(true);
-        const response = await fetch('/api/properties');
+        const response = await fetch(`http://localhost:5000/api/properties`);
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error('Erro ao buscar imóveis.');
         }
         const data: Property[] = await response.json();
         setProperties(data);
@@ -45,8 +43,6 @@ function App() {
       } catch (error) {
         console.error('Erro de conexão:', error);
         setError('Não foi possível carregar os imóveis. Por favor, tente novamente mais tarde.');
-      } finally {
-        setLoading(false);
       }
     };
   
@@ -63,32 +59,26 @@ function App() {
               <span className="block sm:inline">{error}</span>
             </div>
           )}
-          {loading ? (
-            <div className="flex justify-center items-center min-h-[200px]">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            </div>
-          ) : (
-            <Routes>
-              <Route 
-                path="/" 
-                element={
-                  <>
-                    <Hero />
-                    <Services />
-                    <About />
-                    <PropertiesSection properties={properties} />
-                    <Testimonials />
-                    <Contact />
-                  </>
-                } 
-              />
-              <Route 
-                path="/add-property" 
-                element={<AddProperty onAddProperty={addNewProperty} />} 
-              />
-              <Route path="/property/:id" element={<PropertyDetail />} />
-            </Routes>
-          )}
+          <Routes>
+            <Route 
+              path="/" 
+              element={
+                <>
+                  <Hero />
+                  <Services />
+                  <About />
+                  <PropertiesSection properties={properties} />
+                  <Testimonials />
+                  <Contact />
+                </>
+              } 
+            />
+            <Route 
+              path="/add-property" 
+              element={<AddProperty onAddProperty={addNewProperty} />} 
+            />
+            <Route path="/property/:id" element={<PropertyDetail />} />
+          </Routes>
         </main>
         <Footer />
 
