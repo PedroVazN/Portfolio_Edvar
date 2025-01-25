@@ -4,14 +4,22 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  },
   server: {
     proxy: {
-      '/api': 'https://corretoredvar.com.br',
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   resolve: {
     alias: {
       '@': resolve('src'),
     },
-  }, 
+  },
 });
