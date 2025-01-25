@@ -20,5 +20,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "imoveis-backend/index.js"]
+  "include": ["src", "src/server/index.js"]
 }

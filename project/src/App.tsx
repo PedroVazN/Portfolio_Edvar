@@ -10,7 +10,6 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AddProperty from './components/AddProperty';
 import PropertyDetail from './pages/PropertyDetail';
-import { API_BASE_URL, ENDPOINTS } from './config/api';
 
 interface Property {
   _id: string;
@@ -34,7 +33,7 @@ function App() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}${ENDPOINTS.properties}`);
+        const response = await fetch(`/api/properties`);
         if (!response.ok) {
           throw new Error('Erro ao buscar imóveis.');
         }
