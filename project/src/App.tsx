@@ -9,7 +9,8 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AddProperty from './components/AddProperty';
-import PropertyDetail from './pages/PropertyDetail'; 
+import PropertyDetail from './pages/PropertyDetail';
+import { API_BASE_URL, ENDPOINTS } from './config/api';
 
 interface Property {
   _id: string;
@@ -22,9 +23,9 @@ interface Property {
   images: string[];
 }
 
-
 function App() {
   const [properties, setProperties] = useState<Property[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const addNewProperty = (newProperty: Property) => {
     setProperties((prev) => [...prev, newProperty]);
@@ -33,26 +34,32 @@ function App() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/properties');
+        const response = await fetch(`${API_BASE_URL}${ENDPOINTS.properties}`);
         if (!response.ok) {
           throw new Error('Erro ao buscar imóveis.');
         }
         const data: Property[] = await response.json();
         setProperties(data);
+        setError(null);
       } catch (error) {
         console.error('Erro de conexão:', error);
+        setError('Não foi possível carregar os imóveis. Por favor, tente novamente mais tarde.');
       }
     };
   
     fetchProperties();
   }, []);
-  
 
   return (
     <Router>
       <div className="min-h-screen bg-white">
         <Navbar />
         <main>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+              <span className="block sm:inline">{error}</span>
+            </div>
+          )}
           <Routes>
             <Route 
               path="/" 
@@ -76,7 +83,6 @@ function App() {
         </main>
         <Footer />
 
-        {/* Botão do WhatsApp */}
         <a 
           href="https://wa.me/5511947013673" 
           target="_blank" 
@@ -89,7 +95,6 @@ function App() {
             className="w-10 h-10"  
           />
         </a>
-
       </div>
     </Router>
   );
