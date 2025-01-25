@@ -1,4 +1,5 @@
 import Property from '../models/Property.js';
+
 // Cadastrar novo imóvel
 export const createProperty = async (req, res) => {
   console.log(req.body); // Verifica o que está sendo enviado no corpo da requisição
@@ -11,6 +12,7 @@ export const createProperty = async (req, res) => {
     res.status(500).json({ message: 'Erro ao cadastrar imóvel', error });
   }
 };
+
 // Listar imóveis
 export const getProperties = async (req, res) => {
   try {
@@ -20,6 +22,7 @@ export const getProperties = async (req, res) => {
     res.status(500).json({ message: 'Erro ao buscar imóveis', error });
   }
 };
+
 // Buscar imóvel por ID
 export const getPropertyById = async (req, res) => {
   try {
