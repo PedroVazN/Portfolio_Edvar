@@ -38,7 +38,8 @@ const PropertyDetail: React.FC = () => {
   useEffect(() => {
     const fetchPropertyData = async () => {
       try {
-        const response = await fetch(`https://back-end-portfolio-edvar.vercel.app/api/properties${id}`);
+        const response = await fetch(`https://back-end-portfolio-edvar.vercel.app/api/properties/${id}`);
+
         const data = await response.json();
         setProperty(data);
 
