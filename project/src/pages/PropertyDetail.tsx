@@ -38,12 +38,12 @@ const PropertyDetail: React.FC = () => {
   useEffect(() => {
     const fetchPropertyData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/properties${id}`);
+        const response = await fetch(`https://back-end-portfolio-edvar.vercel.app/api/properties${id}`);
         const data = await response.json();
         setProperty(data);
 
         // Fetch similar properties (mock data for example)
-        const similarResponse = await fetch('http://localhost:5000/api/properties');
+        const similarResponse = await fetch('https://back-end-portfolio-edvar.vercel.app/api/properties');
         const allProperties = await similarResponse.json();
         const similar = allProperties
           .filter((p: Property) => p._id !== id)

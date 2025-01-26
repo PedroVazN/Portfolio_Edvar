@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/properties`);
+        const response = await fetch(`https://back-end-portfolio-edvar.vercel.app/api/properties`);
         if (!response.ok) {
           throw new Error('Erro ao buscar imóveis.');
         }

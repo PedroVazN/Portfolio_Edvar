@@ -16,7 +16,7 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoLink = `mailto:edvar@ .com.br?subject=Interesse%20em%20Imóvel&body=
+    const mailtoLink = `mailto:edvar@edvarcorretor.com.br?subject=Interesse%20em%20Imóvel&body=
       Nome: ${formData.name}%0D%0A
       Email: ${formData.email}%0D%0A
       Telefone: ${formData.phone}%0D%0A
