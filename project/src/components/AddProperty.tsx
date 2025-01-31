@@ -36,7 +36,7 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
     e.preventDefault();
     
     try {
-      const response = await fetch('https://back-end-portfolio-edvar.vercel.app/api/properties', {
+      const response = await fetch('https://backendimoveis.vercel.app/api/properties', {
         method: 'POST', // Alterado de GET para POST
         headers: {
           'Content-Type': 'application/json',

@@ -29,7 +29,7 @@ const ScheduleVisit: React.FC<ScheduleVisitProps> = ({ propertyId, propertyTitle
     setMessage(null);
 
     try {
-      const response = await fetch('https://back-end-portfolio-edvar.vercel.app/api/schedule-visit', {
+      const response = await fetch('https://backendimoveis.vercel.app/api/schedule-visit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

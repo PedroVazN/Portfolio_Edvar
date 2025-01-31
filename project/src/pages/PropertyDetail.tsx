@@ -63,7 +63,7 @@ const PropertyDetail: React.FC = () => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const response = await fetch(`https://backend-edvar.vercel.app/api/properties/${id}`);
+        const response = await fetch(`https://backendimoveis.vercel.app/api/properties/${id}`);
         const data = await response.json();
         setProperty(data);
         setLoading(false);
@@ -75,7 +75,7 @@ const PropertyDetail: React.FC = () => {
 
     const fetchSimilarProperties = async () => {
       try {
-        const response = await fetch(`https://backend-edvar.vercel.app/api/properties/${id}/similar`);
+        const response = await fetch(`https://backendimoveis.vercel.app/api/properties/${id}/similar`);
         const data = await response.json();
         setSimilarProperties(data);
       } catch (error) {
