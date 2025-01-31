@@ -4,7 +4,8 @@ import ScheduleVisit from '../components/ScheduleVisit';
 import {
   Bed, Bath, Home, Car, DotSquare as SquareFootage,
   DollarSign, Phone, MapPin, ChevronLeft, ChevronRight,
-  Loader2, Share2, Heart, Calendar, Tag, Building, PawPrint, Sofa, X
+  Loader2, Share2, Heart, Calendar, Tag, Building, PawPrint, Sofa, X,
+  ZoomIn, ZoomOut
 } from 'lucide-react';
 
 interface Property {
@@ -30,6 +31,16 @@ interface Property {
   mobilia: boolean;
 }
 
+// São Paulo neighborhoods data
+const spNeighborhoods = [
+  { name: 'Moema', avgPrice: 'R$ 12.000/m²', popularity: 'Alta' },
+  { name: 'Vila Mariana', avgPrice: 'R$ 10.500/m²', popularity: 'Alta' },
+  { name: 'Pinheiros', avgPrice: 'R$ 13.000/m²', popularity: 'Alta' },
+  { name: 'Jardins', avgPrice: 'R$ 15.000/m²', popularity: 'Alta' },
+  { name: 'Itaim Bibi', avgPrice: 'R$ 14.000/m²', popularity: 'Alta' },
+  { name: 'Brooklin', avgPrice: 'R$ 11.000/m²', popularity: 'Alta' }
+];
+
 const PropertyDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [property, setProperty] = useState<Property | null>(null);
@@ -39,6 +50,7 @@ const PropertyDetail: React.FC = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [showScheduleVisit, setShowScheduleVisit] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const handleNext = () => {
     setCurrentImageIndex((prev) => (prev + 1) % validImages.length);
@@ -52,12 +64,22 @@ const PropertyDetail: React.FC = () => {
     try {
       await navigator.share({
         title: property?.title,
-        text: property?.description,
+        text: `Confira este incrível imóvel: ${property?.title}`,
         url: window.location.href,
       });
     } catch (error) {
       console.error('Error sharing:', error);
     }
+  };
+
+  const handleImageClick = () => {
+    setShowImageModal(true);
+    setIsZoomed(false);
+  };
+
+  const handleZoomToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsZoomed(!isZoomed);
   };
 
   useEffect(() => {
@@ -105,29 +127,63 @@ const PropertyDetail: React.FC = () => {
 
   const validImages = property.images.filter((image) => image.trim() !== '');
 
+  // Format description paragraphs
+  const formattedDescription = property.description.split('\n').map((paragraph, index) => (
+    <p key={index} className="mb-4 text-gray-600 leading-relaxed">
+      {paragraph}
+    </p>
+  ));
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Image Modal */}
       {showImageModal && (
-         <div className="container mx-auto px-4 py-8 max-w-7xl">
-          <button
-            onClick={() => setShowImageModal(false)}
-            className="absolute top-4 right-4 text-white hover:text-gray-300"
-          >
-            <X className="w-8 h-8" />
-          </button>
-          <img
-            src={validImages[currentImageIndex]}
-            alt={`Property ${currentImageIndex + 1}`}
-            className="max-w-full max-h-[90vh] object-contain"
-          />
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white">
-            {currentImageIndex + 1} / {validImages.length}
+        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center">
+          <div className="relative w-full h-full flex items-center justify-center">
+            <button
+              onClick={() => setShowImageModal(false)}
+              className="absolute top-4 right-4 text-white hover:text-gray-300 z-50"
+            >
+              <X className="w-8 h-8" />
+            </button>
+            <button
+              onClick={handleZoomToggle}
+              className="absolute top-4 right-16 text-white hover:text-gray-300 z-50"
+            >
+              {isZoomed ? (
+                <ZoomOut className="w-8 h-8" />
+              ) : (
+                <ZoomIn className="w-8 h-8" />
+              )}
+            </button>
+            <img
+              src={validImages[currentImageIndex]}
+              alt={`Property ${currentImageIndex + 1}`}
+              className={`max-w-full max-h-[90vh] object-contain transition-transform duration-300 ${
+                isZoomed ? 'scale-150 cursor-zoom-out' : 'cursor-zoom-in'
+              }`}
+              onClick={handleZoomToggle}
+            />
+            <button
+              onClick={handlePrevious}
+              className="absolute left-4 text-white hover:text-gray-300"
+            >
+              <ChevronLeft className="w-10 h-10" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="absolute right-4 text-white hover:text-gray-300"
+            >
+              <ChevronRight className="w-10 h-10" />
+            </button>
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white bg-black bg-opacity-50 px-4 py-2 rounded-full">
+              {currentImageIndex + 1} / {validImages.length}
+            </div>
           </div>
         </div>
       )}
       
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
         {/* Breadcrumb */}
         <nav className="mb-8">
           <ol className="flex items-center space-x-2 text-sm text-gray-500">
@@ -145,14 +201,39 @@ const PropertyDetail: React.FC = () => {
           <div className="lg:col-span-2 space-y-8">
             {/* Main Image Gallery */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="relative aspect-[16/9]">
+              <div className="relative aspect-[16/9] cursor-pointer group" onClick={handleImageClick}>
                 <img
                   src={validImages[currentImageIndex]}
                   alt={`Property ${currentImageIndex + 1}`}
-                  className="w-full h-full object-cover"
-                  onClick={() => setShowImageModal(true)}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="bg-black/75 text-white px-6 py-3 rounded-full flex items-center space-x-2">
+                    <ZoomIn className="w-5 h-5" />
+                    <span>Ampliar imagem</span>
+                  </div>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevious();
+                    }}
+                    className="p-2 rounded-full bg-black/20 hover:bg-black/40 transition-colors pointer-events-auto"
+                  >
+                    <ChevronLeft className="w-8 h-8 text-white" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNext();
+                    }}
+                    className="p-2 rounded-full bg-black/20 hover:bg-black/40 transition-colors pointer-events-auto"
+                  >
+                    <ChevronRight className="w-8 h-8 text-white" />
+                  </button>
+                </div>
                 <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                   <div>
                     <h1 className="text-3xl font-bold text-white mb-2">{property.title}</h1>
@@ -160,20 +241,6 @@ const PropertyDetail: React.FC = () => {
                       <MapPin className="w-5 h-5 mr-2" />
                       <p>{property.location}</p>
                     </div>
-                  </div>
-                  <div className="flex space-x-3">
-                    <button
-                      onClick={handlePrevious}
-                      className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                    >
-                      <ChevronLeft className="w-6 h-6 text-white" />
-                    </button>
-                    <button
-                      onClick={handleNext}
-                      className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                    >
-                      <ChevronRight className="w-6 h-6 text-white" />
-                    </button>
                   </div>
                 </div>
               </div>
@@ -185,7 +252,7 @@ const PropertyDetail: React.FC = () => {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`aspect-square rounded-lg overflow-hidden transition-all duration-300 
-                      ${currentImageIndex === index ? 'ring-2 ring-blue-600' : 'hover:opacity-80'}`}
+                      ${currentImageIndex === index ? 'ring-2 ring-blue-600 scale-95' : 'hover:opacity-80'}`}
                   >
                     <img
                       src={image}
@@ -200,9 +267,9 @@ const PropertyDetail: React.FC = () => {
             {/* Description Section */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Sobre este imóvel</h2>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-line">
-                {property.description}
-              </p>
+              <div className="prose max-w-none">
+                {formattedDescription}
+              </div>
             </div>
 
             {/* Map Section */}
@@ -220,12 +287,26 @@ const PropertyDetail: React.FC = () => {
                 ></iframe>
               </div>
             </div>
+
+            {/* São Paulo Neighborhoods */}
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Bairros Populares em São Paulo</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {spNeighborhoods.map((neighborhood, index) => (
+                  <div key={index} className="p-4 bg-gray-50 rounded-xl">
+                    <h3 className="font-semibold text-lg mb-2">{neighborhood.name}</h3>
+                    <p className="text-sm text-gray-600">Preço médio: {neighborhood.avgPrice}</p>
+                    <p className="text-sm text-gray-600">Procura: {neighborhood.popularity}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Right Column - Property Details and Contact */}
           <div className="space-y-8">
             {/* Price and Actions Card */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <span className="text-3xl font-bold text-blue-600">
@@ -269,7 +350,7 @@ const PropertyDetail: React.FC = () => {
                   { icon: SquareFootage, label: 'Área', value: `${property.area} m²` },
                   { icon: Building, label: 'Condomínio', value: `R$ ${property.condominio?.toLocaleString('pt-BR')}` }
                 ].map(({ icon: Icon, label, value }, index) => (
-                  <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                  <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <Icon className="w-5 h-5 text-gray-600" />
                     <div>
                       <p className="text-sm text-gray-600">{label}</p>
@@ -281,21 +362,21 @@ const PropertyDetail: React.FC = () => {
 
               {/* Additional Features */}
               <div className="space-y-4 mb-6">
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex items-center">
                     <DollarSign className="w-5 h-5 text-gray-600 mr-3" />
                     <span className="text-gray-600">IPTU</span>
                   </div>
-                  <span className="font-semibold">R$ {property.iptu.toLocaleString('pt-BR')}/ano</span>
+                  <span className="font-semibold">R$ {property.iptu.toLocaleString('pt-BR')}/mês</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex items-center">
                     <PawPrint className="w-5 h-5 text-gray-600 mr-3" />
                     <span className="text-gray-600">Aceita Pet</span>
                   </div>
                   <span className="font-semibold">{property.aceitaPet ? 'Sim' : 'Não'}</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex items-center">
                     <Sofa className="w-5 h-5 text-gray-600 mr-3" />
                     <span className="text-gray-600">Mobiliado</span>
@@ -318,9 +399,10 @@ const PropertyDetail: React.FC = () => {
                 <button
                   onClick={() => setShowScheduleVisit(true)}
                   className="w-full py-3 bg-white text-blue-600 rounded-lg font-semibold
-                    hover:bg-blue-50 transition-colors"
+                    hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2"
                 >
-                  Agendar Visita
+                  <Calendar className="w-5 h-5" />
+                  <span>Agendar Visita</span>
                 </button>
               </div>
             </div>
@@ -333,7 +415,11 @@ const PropertyDetail: React.FC = () => {
             <h2 className="text-2xl font-bold text-gray-900 mb-8">Imóveis Similares</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {similarProperties.map((similar) => (
-                <div key={similar._id} className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow">
+                <a
+                  href={`/property/${similar._id}`}
+                  key={similar._id}
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                >
                   <div className="relative aspect-[4/3]">
                     <img
                       src={similar.images[0]}
@@ -368,7 +454,7 @@ const PropertyDetail: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
