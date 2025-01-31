@@ -16,6 +16,9 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
     saleOrRent: '',
     latitude: '',
     longitude: '',
+    mobilia: '',
+    aceitaPet: '',
+    condominio: '',
     images: Array(30).fill(''),
   });
 
@@ -61,6 +64,9 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
           saleOrRent: '',
           latitude: '',
           longitude: '',
+          mobilia: '',
+          aceitaPet: '',
+          condominio: '',
           images: Array(30).fill(''),
         });
       } else {
@@ -179,6 +185,30 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
             name="longitude"
             placeholder="Longitude"
             value={property.longitude}
+            onChange={handleChange}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="condominio"
+            placeholder="Condomínio"
+            value={property.condominio}
+            onChange={handleChange}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="aceitaPet"
+            placeholder="Aceita Pet"
+            value={property.aceitaPet}
+            onChange={handleChange}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="mobilia"
+            placeholder="Mobilia"
+            value={property.mobilia}
             onChange={handleChange}
             className="input-field"
           />
