@@ -10,7 +10,7 @@ const neighborhoods = [
   },
   {
     name: 'Cambuci',
-    image: 'https://www.ape11.com.br/wp-content/uploads/2022/11/cambuci_bairro_do_centro_de_sao_paulo.png',
+    image: 'https://t3.ftcdn.net/jpg/06/07/63/94/360_F_607639446_YQknzhsw7WWEc370sTYZFX9lJjHYPsVp.jpg',
     description: 'Região residencial tranquila e arborizada'
   },
   {
