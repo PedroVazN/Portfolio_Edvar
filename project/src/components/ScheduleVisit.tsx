@@ -27,96 +27,27 @@ const ScheduleVisit: React.FC<ScheduleVisitProps> = ({ propertyId, propertyTitle
     e.preventDefault();
     setLoading(true);
     setMessage(null);
-
-    try {
-      const response = await fetch('https://backendimoveis.vercel.app/api/schedule-visit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          propertyId,
-          propertyTitle,
-          date: selectedDate,
-          time: selectedTime,
-          email,
-          phone,
-          agentEmail: 'edvar@corretoredvar.com.br',
-          emailData: {
-            clientEmail: {
-              subject: 'Agendamento de Visita - Confirmação',
-              text: `
-                Olá!
-
-                Agradecemos seu interesse em agendar uma visita ao imóvel: ${propertyTitle}.
-
-                O Corretor Edvar entrará em contato com você através do número ${phone} para confirmar sua visita.
-
-                Detalhes do agendamento:
-                - Data: ${selectedDate}
-                - Horário: ${selectedTime}
-
-                Para sua conveniência, você pode entrar em contato diretamente com o corretor:
-                Telefone: (11) 94701-3673
-
-                Agradecemos a preferência!
-
-                Atenciosamente,
-                Equipe Corretor Edvar
-              `
-            },
-            agentEmail: {
-              subject: 'Nova Solicitação de Visita',
-              text: `
-                Nova solicitação de visita recebida!
-
-                Detalhes do cliente:
-                - Nome: ${email}
-                - Telefone: ${phone}
-                - Email: ${email}
-
-                Detalhes da visita:
-                - Imóvel: ${propertyTitle}
-                - ID do imóvel: ${propertyId}
-                - Data: ${selectedDate}
-                - Horário: ${selectedTime}
-
-                Por favor, entre em contato com o cliente para confirmar a visita.
-              `
-            }
-          }
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Falha ao agendar visita');
-      }
-
-      setMessage({
-        type: 'success',
-        text: 'Solicitação de visita enviada com sucesso! Em breve o corretor entrará em contato.'
-      });
+  
+    const whatsappNumber = "5511947013673"; // Número no formato internacional
+    const propertyLink = `https://corretoredvar.com.br/imovel/${propertyId}`;
+    const whatsappMessage = encodeURIComponent(`
+      Olá, Corretor Edvar! Tenho interresse em: ${propertyTitle}.
+      Link: ${propertyLink}
       
-      // Reset form after successful submission
-      setSelectedDate('');
-      setSelectedTime('');
-      setEmail('');
-      setPhone('');
+      Detalhes do agendamento:
+      - Data: ${selectedDate}
+      - Horário: ${selectedTime}
+      - Seu telefone: ${phone}
       
-      // Close modal after 3 seconds
-      setTimeout(() => {
-        onClose();
-      }, 3000);
-
-    } catch (error) {
-      setMessage({
-        type: 'error',
-        text: 'Erro ao agendar visita. Por favor, tente novamente.'
-      });
-    } finally {
-      setLoading(false);
-    }
+      Voce tem Disponibilidade para esse horario e dia?
+    `);
+  
+    // Redireciona para o WhatsApp
+    window.open(`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${whatsappMessage}`, "_blank");
+  
+    setLoading(false);
   };
+  
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">

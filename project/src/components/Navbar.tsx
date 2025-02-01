@@ -10,7 +10,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <img
-              src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/logo.png?raw=true"
+              src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/logoedvar1.png?raw=true"
               className="w-32 md:w-48 lg:w-48 max-w-full h-auto mt-6 mb-4"
               alt="Logo"
             />

@@ -10,9 +10,11 @@ import Footer from './components/Footer';
 import AddProperty from './components/AddProperty';
 import PropertyDetail from './pages/PropertyDetail';
 import FeaturedAgent from './components/FeaturedAgent';
-import Stats from './components/Stats';
 import Neighborhoods from './components/Neighborhoods';
 import PropertiesByNeighborhood from './components/PropertiesByNeighborhood';
+import PropertyList from './components/PropertyList';
+
+
 
 interface Property {
   _id: string;
@@ -68,7 +70,6 @@ function App() {
               element={
                 <>
                   <Hero />
-                  <Stats />
                   <Services />
                   <FeaturedAgent />
                   <PropertiesSection properties={properties} />
@@ -82,7 +83,9 @@ function App() {
               path="/add-property" 
               element={<AddProperty onAddProperty={addNewProperty} />} 
             />
+            <Route path="/" element={<Hero />} />
             <Route path="/property/:id" element={<PropertyDetail />} />
+            <Route path="/properties" element={<PropertyList />} />
             <Route path="/properties/neighborhood/:neighborhood" element={<PropertiesByNeighborhood />} />
           </Routes>
         </main>

@@ -11,4 +11,6 @@ router.get('/properties', getProperties);
 // Rota para buscar imóvel por ID
 router.get('/properties/:id', getPropertyById);
 //
+
+
 export default router;
