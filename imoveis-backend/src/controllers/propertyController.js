@@ -23,7 +23,7 @@ export const getProperties = async (req, res) => {
     const filter = {};
     if (type) filter.type = type;
     if (neighborhood) {
-      // Filtra por bairro dentro do campo "location"
+      // Filtra por bairro dentro do campo "location" usando regex
       filter.location = { $regex: neighborhood, $options: 'i' }; // Case-insensitive
     }
     if (bedrooms) filter.bedrooms = parseInt(bedrooms); // Converte para número
