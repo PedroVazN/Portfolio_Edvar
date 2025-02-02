@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building, Search, Home, Bath, Bed } from 'lucide-react';
 
-const locations = [
-  'Ipiranga',
+const neighborhoods = [
+  'Alto do Ipiranga',
   'Vila Mariana',
   'Saúde',
   'Cambuci',
-  'Sacomã'
+  'Sacomã',
+  'Ipiranga'
 ];
 
-function Hero() {
+const Hero = () => {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
     type: '',
-    location: '',
+    neighborhood: '',
     bedrooms: '',
     bathrooms: ''
   });
@@ -24,7 +25,7 @@ function Hero() {
     const queryParams = new URLSearchParams();
     
     if (filters.type) queryParams.append('type', filters.type);
-    if (filters.location) queryParams.append('location', filters.location);
+    if (filters.neighborhood) queryParams.append('neighborhood', filters.neighborhood);
     if (filters.bedrooms) queryParams.append('bedrooms', filters.bedrooms);
     if (filters.bathrooms) queryParams.append('bathrooms', filters.bathrooms);
     
@@ -34,15 +35,15 @@ function Hero() {
   return (
     <div className="h-auto bg-gray-50 overflow-hidden">
       <div className="relative h-[70vh] bg-cover bg-center" style={{
-        backgroundImage: 'url("https://wallpapers.com/images/hd/small-luxury-house-4k-hd-oj9nyozvh7a9xbh2.jpg")'
+        backgroundImage: 'url("https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80")'
       }}>
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-8">
-            Encontre o Imóvel Perfeito
+            Encontre o Imóvel dos Seus Sonhos
           </h1>
           <p className="text-xl text-white/90 text-center mb-12 max-w-2xl">
-            Busque entre nossa seleção de imóveis e encontre aquele que melhor atende suas necessidades
+            Explore nossa seleção exclusiva de imóveis em São Paulo e encontre o lugar perfeito para chamar de seu
           </p>
           
           <form onSubmit={handleSearch} className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-6 space-y-6">
@@ -67,18 +68,18 @@ function Hero() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Localização
+                  Bairro
                 </label>
                 <div className="relative">
                   <select
-                    value={filters.location}
-                    onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+                    value={filters.neighborhood}
+                    onChange={(e) => setFilters({ ...filters, neighborhood: e.target.value })}
                     className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   >
                     <option value="">Selecione</option>
-                    {locations.map((location) => (
-                      <option key={location} value={location}>
-                        {location}
+                    {neighborhoods.map((neighborhood) => (
+                      <option key={neighborhood} value={neighborhood}>
+                        {neighborhood}
                       </option>
                     ))}
                   </select>
@@ -141,6 +142,6 @@ function Hero() {
       </div>
     </div>
   );
-}
+};
 
 export default Hero;

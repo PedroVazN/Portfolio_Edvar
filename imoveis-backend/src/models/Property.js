@@ -19,7 +19,7 @@ const PropertySchema = new mongoose.Schema({
   condominio: { type: Number },
   aceitaPet: { type: Boolean, default: false },
   mobilia: { type: Boolean, default: false },
-  neighborhood: { type: String, enum: ['Ipiranga','Sacoma','Cambuci','Vila Mariana','Saude','Alto do Ipiranga' ], required: true },
+  neighborhood: { type: String, enum: ['Ipiranga','Sacoma','Cambuci','Vila Mariana','Saude','Alto do Ipiranga', 'Sao Caetano' ], required: true },
 });
 
 const Property = mongoose.model('Property', PropertySchema);
