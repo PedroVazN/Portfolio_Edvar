@@ -11,11 +11,11 @@ const neighborhoods = [
   'Ipiranga'
 ];
 
-const SearchBanner = () => {
+const Hero = () => {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
     type: '',
-    neighborhood: '',
+    location: '',
     bedrooms: '',
     bathrooms: ''
   });
@@ -25,11 +25,11 @@ const SearchBanner = () => {
     const queryParams = new URLSearchParams();
     
     if (filters.type) queryParams.append('type', filters.type);
-    if (filters.neighborhood) queryParams.append('neighborhood', filters.neighborhood);
+    if (filters.location) queryParams.append('location', filters.location);
     if (filters.bedrooms) queryParams.append('bedrooms', filters.bedrooms);
     if (filters.bathrooms) queryParams.append('bathrooms', filters.bathrooms);
     
-    navigate(`/properties?${queryParams.toString()}`);
+    navigate(`/properties/search?${queryParams.toString()}`);
   };
 
   return (
@@ -68,12 +68,12 @@ const SearchBanner = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Bairro
+                  Localização
                 </label>
                 <div className="relative">
                   <select
-                    value={filters.neighborhood}
-                    onChange={(e) => setFilters({ ...filters, neighborhood: e.target.value })}
+                    value={filters.location}
+                    onChange={(e) => setFilters({ ...filters, location: e.target.value })}
                     className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   >
                     <option value="">Selecione</option>
@@ -144,4 +144,4 @@ const SearchBanner = () => {
   );
 };
 
-export default SearchBanner;
+export default Hero;

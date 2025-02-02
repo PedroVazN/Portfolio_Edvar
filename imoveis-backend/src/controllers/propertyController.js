@@ -2,41 +2,50 @@ import Property from '../models/Property.js';
 
 // Cadastrar novo imóvel
 export const createProperty = async (req, res) => {
-  console.log(req.body); // Verifica o que está sendo enviado no corpo da requisição
   try {
     const newProperty = new Property(req.body);
     await newProperty.save();
     res.status(201).json({ message: 'Imóvel cadastrado com sucesso!' });
   } catch (error) {
-    console.error('Erro:', error); // Log do erro
+    console.error('Erro:', error);
     res.status(500).json({ message: 'Erro ao cadastrar imóvel', error });
   }
 };
 
-
-// Listar imóveis 
+// Listar imóveis com filtros
 export const getProperties = async (req, res) => {
   try {
-    const { type, neighborhood, bedrooms, bathrooms } = req.query;
-
+    const { type, location, bedrooms, bathrooms } = req.query;
+    
     // Construir o objeto de filtro
     const filter = {};
-    if (type) filter.type = type;
-    if (neighborhood) {
-      // Filtra por bairro dentro do campo "location" usando regex
-      filter.location = { $regex: neighborhood, $options: 'i' }; // Case-insensitive
+    
+    if (type) filter.saleOrRent = type.toLowerCase(); // Convertendo para minúsculo para match com enum
+    if (location) {
+      filter.location = { $regex: location, $options: 'i' }; // Case-insensitive search
     }
-    if (bedrooms) filter.bedrooms = parseInt(bedrooms); // Converte para número
-    if (bathrooms) filter.bathrooms = parseInt(bathrooms); // Converte para número
+    if (bedrooms) {
+      if (bedrooms === '5+') {
+        filter.bedrooms = { $gte: 5 }; // Greater than or equal to 5
+      } else {
+        filter.bedrooms = parseInt(bedrooms);
+      }
+    }
+    if (bathrooms) {
+      if (bathrooms === '4+') {
+        filter.bathrooms = { $gte: 4 }; // Greater than or equal to 4
+      } else {
+        filter.bathrooms = parseInt(bathrooms);
+      }
+    }
 
-    // Buscar imóveis com base nos filtros
     const properties = await Property.find(filter);
     res.status(200).json(properties);
   } catch (error) {
+    console.error('Erro ao buscar imóveis:', error);
     res.status(500).json({ message: 'Erro ao buscar imóveis', error });
   }
 };
-
 
 // Buscar imóvel por ID
 export const getPropertyById = async (req, res) => {
