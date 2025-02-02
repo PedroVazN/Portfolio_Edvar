@@ -19,6 +19,7 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
     mobilia: '',
     aceitaPet: '',
     condominio: '',
+    neighborhood:'',
     images: Array(30).fill(''),
   });
 
@@ -34,7 +35,7 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch('https://backendimoveis.vercel.app/api/properties', {
         method: 'POST', // Alterado de GET para POST
@@ -44,7 +45,7 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
         body: JSON.stringify(property), // Envia o imóvel no corpo da requisição
         mode: 'cors',
       });
-    
+
       if (response.ok) {
         const result = await response.json();
         alert(result.message); // Mensagem de sucesso
@@ -67,6 +68,7 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
           mobilia: '',
           aceitaPet: '',
           condominio: '',
+          neighborhood:'',
           images: Array(30).fill(''),
         });
       } else {
@@ -77,8 +79,8 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
       alert('Erro ao conectar ao servidor.');
     }
   };
-  
-  
+
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -221,6 +223,17 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
             className="input-field"
             required
           />
+
+          <input
+            type="text"
+            name="neighborhood"
+            placeholder="Bairro"
+            value={property.neighborhood}
+            onChange={handleChange}
+            className="input-field"
+            required
+          />
+
         </div>
 
         <textarea
