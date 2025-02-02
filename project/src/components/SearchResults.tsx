@@ -22,14 +22,14 @@ const SearchResults = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch('https://back-end-portfolio-edvar.vercel.app/api/properties');
+        const response = await fetch('https://backendimoveis.vercel.app/api/properties');
         if (!response.ok) throw new Error('Falha ao carregar imóveis');
         const data = await response.json();
         
         // Filter properties based on search parameters
         let filteredProperties = data;
         
-        const location = searchParams.get('location');
+        const location = searchParams.get('neighborhood');
         const bedrooms = searchParams.get('bedrooms');
         const bathrooms = searchParams.get('bathrooms');
         
@@ -84,7 +84,7 @@ const SearchResults = () => {
   }
 
   const filters = {
-    location: searchParams.get('location'),
+    neighborhood: searchParams.get('neighborhood'),
     bedrooms: searchParams.get('bedrooms'),
     bathrooms: searchParams.get('bathrooms'),
   };
@@ -108,7 +108,7 @@ const SearchResults = () => {
             {Object.entries(filters).map(([key, value]) => 
               value && (
                 <span key={key} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                  {key === 'location' && 'Região: '}
+                  {key === 'neighborhood' && 'Bairro: '}
                   {key === 'bedrooms' && 'Quartos: '}
                   {key === 'bathrooms' && 'Banheiros: '}
                   {value}

@@ -11,7 +11,7 @@ const neighborhoods = [
   'Ipiranga'
 ];
 
-const Hero = () => {
+const SearchBanner = () => {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
     type: '',
@@ -144,4 +144,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default SearchBanner;
