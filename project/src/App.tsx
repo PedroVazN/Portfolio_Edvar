@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
+import Hero from './components/SearchBanner';
 import Services from './components/Services';
 import PropertiesSection from './components/PropertiesSection';
 import Testimonials from './components/Testimonials';
@@ -12,7 +12,7 @@ import PropertyDetail from './pages/PropertyDetail';
 import FeaturedAgent from './components/FeaturedAgent';
 import Neighborhoods from './components/Neighborhoods';
 import PropertiesByNeighborhood from './components/PropertiesByNeighborhood';
-import PropertyList from './components/PropertyList';
+import SearchResults from './components/SearchResults';
 
 
 
@@ -85,7 +85,7 @@ function App() {
             />
             <Route path="/" element={<Hero />} />
             <Route path="/property/:id" element={<PropertyDetail />} />
-            <Route path="/properties" element={<PropertyList />} />
+            <Route path="/properties/search" element={<SearchResults />} />
             <Route path="/properties/neighborhood/:neighborhood" element={<PropertiesByNeighborhood />} />
           </Routes>
         </main>
