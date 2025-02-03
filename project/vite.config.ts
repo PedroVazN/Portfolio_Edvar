@@ -6,7 +6,7 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  base: './',  // Ajusta caminhos relativos para funcionar corretamente na Vercel
+  base: '/',  // Ajusta caminhos relativos para funcionar corretamente na Vercel
   build: {
     outDir: 'dist',  // Garante que a Vercel reconheça a pasta de saída correta
   },

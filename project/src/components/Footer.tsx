@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="space-y-6">
             <div className="flex items-center">
               <img
-                src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/logoedvar1.png?raw=true"
+                src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/logoshino%20(1).png?raw=true"
                 className="h-12 w-auto"
                 alt="Edvar Corretor"
               />
