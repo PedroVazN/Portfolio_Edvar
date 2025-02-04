@@ -65,7 +65,7 @@ const FeaturedAgent = () => {
               {[
                 { icon: Award, title: "CRECI", value: "219452" },
                 { icon: Clock, title: "Experiência", value: "7+ anos" },
-                { icon: Users, title: "Clientes", value: "500+ atendidos" },
+                { icon: Users, title: "Clientes", value: "10000+ atendidos" },
                 { icon: MapPin, title: "Região", value: "Ipiranga, SP" }
               ].map((item, index) => (
                 <motion.div

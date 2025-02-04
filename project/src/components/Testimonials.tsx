@@ -6,19 +6,19 @@ const testimonials = [
     name: 'Ana Silva',
     role: 'Proprietária',
     content: 'Excelente profissional! Vendeu meu imóvel em tempo recorde e com ótimas condições.',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80'
+    image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
   },
   {
-    name: 'Carlos Santos',
+    name: 'Pedro Santos',
     role: 'Investidor',
     content: 'Consultoria excepcional para investimentos imobiliários. Recomendo fortemente!',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+    image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
   },
   {
     name: 'Mariana Costa',
     role: 'Compradora',
     content: 'Encontrou o apartamento perfeito para minha família. Profissionalismo impecável.',
-    image: 'https://img.freepik.com/fotos-gratis/estilo-de-vida-emocoes-das-pessoas-e-conceito-casual-mulher-asiatica-sorridente-confiante-e-bonita-com-os-bracos-cruzados-confiante-pronta-para-ajudar-ouvindo-colegas-de-trabalho-participando-da-conversa_1258-59335.jpg?t=st=1738258433~exp=1738262033~hmac=b4ef543f3d5bb8528bf6881568fbb109c9a7cd35d92c74e502b81c55ca23facd&w=1380'
+    image: 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
   }
 ];
 

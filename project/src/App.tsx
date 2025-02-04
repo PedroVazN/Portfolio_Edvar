@@ -13,6 +13,7 @@ import FeaturedAgent from './components/FeaturedAgent';
 import Neighborhoods from './components/Neighborhoods';
 import PropertiesByNeighborhood from './components/PropertiesByNeighborhood';
 import PropertyList from './components/PropertyList';
+import AllProperties from './pages/AllProperties';
 
 
 interface Property {
@@ -84,6 +85,7 @@ function App() {
             />
             <Route path="/property/:id" element={<PropertyDetail />} />
             <Route path="/properties/search" element={<PropertyList />} />
+            <Route path="/properties" element={<AllProperties />} />
             <Route path="/properties/neighborhood/:neighborhood" element={<PropertiesByNeighborhood />} />
           </Routes>
         </main>
