@@ -19,8 +19,11 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
     mobilia: '',
     aceitaPet: '',
     condominio: '',
-    images: Array(30).fill(''),
+    images: Array(50).fill(''),
   });
+
+  const [password, setPassword] = useState(''); // Estado para armazenar a senha digitada
+  const [error, setError] = useState(''); // Estado para armazenar mensagens de erro
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProperty({ ...property, [e.target.name]: e.target.value });
@@ -34,21 +37,27 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
+    // Verifica se a senha está correta
+    if (password !== '122412') {
+      setError('Senha incorreta. Tente novamente.');
+      return; // Impede o envio do formulário
+    }
+
     try {
       const response = await fetch('https://backendimoveis.vercel.app/api/properties', {
-        method: 'POST', // Alterado de GET para POST
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(property), // Envia o imóvel no corpo da requisição
+        body: JSON.stringify(property),
         mode: 'cors',
       });
-    
+
       if (response.ok) {
         const result = await response.json();
-        alert(result.message); // Mensagem de sucesso
-        onAddProperty(property); // Adiciona ao estado do pai
+        alert(result.message);
+        onAddProperty(property);
         setProperty({
           title: '',
           location: '',
@@ -67,8 +76,9 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
           mobilia: '',
           aceitaPet: '',
           condominio: '',
-          images: Array(30).fill(''),
+          images: Array(50).fill(''),
         });
+        setError(''); // Limpa a mensagem de erro
       } else {
         alert('Erro ao cadastrar imóvel.');
       }
@@ -77,13 +87,30 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
       alert('Erro ao conectar ao servidor.');
     }
   };
-  
-  
 
   return (
     <div className="min-h-screen bg-gray-50">
       <h2 className="text-3xl font-bold text-gray-800 mb-8">Cadastrar Novo Imóvel</h2>
       <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-md">
+        {/* Campo de senha */}
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            Senha de Acesso
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Digite a senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input-field"
+            required
+          />
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        </div>
+
+        {/* Campos do formulário de imóvel */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <input
             type="text"
@@ -221,8 +248,6 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
             className="input-field"
             required
           />
-
-          
         </div>
 
         <textarea
@@ -235,7 +260,7 @@ const AddProperty = ({ onAddProperty }: { onAddProperty: (property: any) => void
         />
 
         <div>
-          <h3 className="font-bold text-lg mb-2">Imagens (máx: 30)</h3>
+          <h3 className="font-bold text-lg mb-2">Imagens (máx: 50)</h3>
           {property.images.map((image, index) => (
             <input
               key={index}

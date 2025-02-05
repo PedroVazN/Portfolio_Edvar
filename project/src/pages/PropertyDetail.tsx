@@ -134,20 +134,20 @@ const PropertyDetail: React.FC = () => {
   const validImages = property.images.filter((image) => image.trim() !== '');
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-20">
       {/* Image Modal */}
       {showImageModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center animate-fade-in">
           <div className="relative w-full h-full flex items-center justify-center">
             <button
               onClick={() => setShowImageModal(false)}
-              className="absolute top-4 right-4 text-white hover:text-gray-300 z-50"
+              className="absolute top-4 right-4 text-white hover:text-gray-300 z-50 transition-colors"
             >
               <X className="w-8 h-8" />
             </button>
             <button
               onClick={handleZoomToggle}
-              className="absolute top-4 right-16 text-white hover:text-gray-300 z-50"
+              className="absolute top-4 right-16 text-white hover:text-gray-300 z-50 transition-colors"
             >
               {isZoomed ? <ZoomOut className="w-8 h-8" /> : <ZoomIn className="w-8 h-8" />}
             </button>
@@ -193,7 +193,8 @@ const PropertyDetail: React.FC = () => {
         </div>
       )}
 
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Main Content */}
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Breadcrumb */}
         <nav className="mb-6">
           <ol className="flex items-center space-x-2 text-sm text-gray-500">
@@ -205,29 +206,43 @@ const PropertyDetail: React.FC = () => {
           </ol>
         </nav>
 
-        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Images and Description */}
           <div className="lg:col-span-2 space-y-6">
             {/* Main Image Gallery */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="relative aspect-[16/9]">
+              <div 
+                className="relative aspect-[16/9] group cursor-pointer"
+                onClick={handleImageClick}
+              >
                 <img
                   src={validImages[currentImageIndex]}
                   alt={`Property ${currentImageIndex + 1}`}
-                  className="w-full h-full object-cover cursor-pointer"
-                  onClick={handleImageClick}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                 />
-                <div className="absolute inset-0 flex items-center justify-between px-4">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-black/75 text-white px-6 py-3 rounded-full flex items-center space-x-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <ZoomIn className="w-5 h-5" />
+                      <span>Clique para expandir</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
                   <button
-                    onClick={handlePrevious}
-                    className="p-2 rounded-full bg-white/80 hover:bg-white text-gray-800 transition-colors transform hover:scale-105"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevious();
+                    }}
+                    className="pointer-events-auto p-2 rounded-full bg-white/80 hover:bg-white text-gray-800 transition-all duration-300 transform hover:scale-105 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0"
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </button>
                   <button
-                    onClick={handleNext}
-                    className="p-2 rounded-full bg-white/80 hover:bg-white text-gray-800 transition-colors transform hover:scale-105"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNext();
+                    }}
+                    className="pointer-events-auto p-2 rounded-full bg-white/80 hover:bg-white text-gray-800 transition-all duration-300 transform hover:scale-105 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
                   >
                     <ChevronRight className="w-6 h-6" />
                   </button>
@@ -377,7 +392,7 @@ const PropertyDetail: React.FC = () => {
                     <DollarSign className="w-5 h-5 text-gray-600 mr-3" />
                     <span className="text-gray-600">IPTU</span>
                   </div>
-                  <span className="font-semibold">R$ {property.iptu.toLocaleString('pt-BR')}/ano</span>
+                  <span className="font-semibold">R$ {property.iptu.toLocaleString('pt-BR')}/mês </span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center">
