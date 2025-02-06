@@ -30,15 +30,19 @@ const PropertyList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-
-  const currentFilters = {
+  const [filters, setFilters] = useState({
     type: searchParams.get('type') || '',
     location: searchParams.get('location') || '',
     bedrooms: searchParams.get('bedrooms') || '',
     bathrooms: searchParams.get('bathrooms') || '',
-  };
+    minPrice: '',
+    maxPrice: ''
+  });
 
   const updateFilter = (key: string, value: string) => {
+    const newFilters = { ...filters, [key]: value };
+    setFilters(newFilters);
+    
     const newParams = new URLSearchParams(searchParams);
     if (value) {
       newParams.set(key, value);
@@ -48,13 +52,15 @@ const PropertyList = () => {
     setSearchParams(newParams);
   };
 
-  const removeFilter = (key: string) => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete(key);
-    setSearchParams(newParams);
-  };
-
-  const clearAllFilters = () => {
+  const clearFilters = () => {
+    setFilters({
+      type: '',
+      location: '',
+      bedrooms: '',
+      bathrooms: '',
+      minPrice: '',
+      maxPrice: ''
+    });
     setSearchParams(new URLSearchParams());
   };
 
@@ -67,7 +73,6 @@ const PropertyList = () => {
         if (!response.ok) throw new Error('Falha ao carregar imóveis');
         const data = await response.json();
         setProperties(data);
-        setError(null);
       } catch (error) {
         console.error('Error fetching properties:', error);
         setError('Não foi possível carregar os imóveis. Por favor, tente novamente.');
@@ -79,16 +84,50 @@ const PropertyList = () => {
     fetchProperties();
   }, [searchParams]);
 
+  const filteredProperties = properties.filter(property => {
+    // Type filter (Venda/Locação)
+    if (filters.type && property.type.toLowerCase() !== filters.type.toLowerCase()) return false;
+    
+    // Location filter - check if the location contains the selected neighborhood
+    if (filters.location && !property.location.toLowerCase().includes(filters.location.toLowerCase())) return false;
+    
+    // Bedrooms filter
+    if (filters.bedrooms) {
+      const bedroomsNum = parseInt(filters.bedrooms);
+      if (filters.bedrooms === '5+') {
+        if (property.bedrooms < 5) return false;
+      } else if (property.bedrooms !== bedroomsNum) {
+        return false;
+      }
+    }
+    
+    // Bathrooms filter
+    if (filters.bathrooms) {
+      const bathroomsNum = parseInt(filters.bathrooms);
+      if (filters.bathrooms === '5+') {
+        if (property.bathrooms < 5) return false;
+      } else if (property.bathrooms !== bathroomsNum) {
+        return false;
+      }
+    }
+    
+    // Price filters
+    if (filters.minPrice && property.price < parseInt(filters.minPrice)) return false;
+    if (filters.maxPrice && property.price > parseInt(filters.maxPrice)) return false;
+    
+    return true;
+  });
+
   if (loading) {
     return (
       <div className="min-h-screen pt-24 flex items-center justify-center bg-gray-50">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           className="flex flex-col items-center"
         >
-          <Loader2 className="w-12 h-12 animate-spin text-blue-600 mb-4" />
-          <p className="text-gray-600 font-medium">Carregando imóveis...</p>
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="mt-4 text-gray-600 font-medium">Carregando imóveis...</p>
         </motion.div>
       </div>
     );
@@ -97,17 +136,13 @@ const PropertyList = () => {
   if (error) {
     return (
       <div className="min-h-screen pt-24 flex items-center justify-center bg-gray-50">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center"
-        >
+        <div className="text-center">
           <p className="text-red-600 text-lg mb-4">{error}</p>
-          <Link to="/" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+          <Link to="/" className="text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center">
+            <ArrowLeft className="w-5 h-5 mr-2" />
             Voltar para página inicial
           </Link>
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -115,19 +150,22 @@ const PropertyList = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex justify-between items-center mb-6">
-            <Link 
-              to="/" 
-              className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium
-                       transition-colors duration-200"
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-2">
+              Imóveis Encontrados
+            </h1>
+            <p className="text-gray-600">
+              {filteredProperties.length} {filteredProperties.length === 1 ? 'imóvel encontrado' : 'imóveis encontrados'}
+            </p>
+          </div>
+          <div className="mt-4 sm:mt-0 flex items-center gap-4">
+            <Link
+              to="/"
+              className="text-blue-600 hover:text-blue-700 font-medium flex items-center"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Voltar para página inicial
+              Voltar
             </Link>
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -140,139 +178,148 @@ const PropertyList = () => {
               {showFilters ? 'Ocultar Filtros' : 'Mostrar Filtros'}
             </motion.button>
           </div>
+        </div>
 
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden"
-              >
-                <div className="bg-white p-8 rounded-2xl shadow-lg mb-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {[
-                      {
-                        label: 'Tipo de Negócio',
-                        value: currentFilters.type,
-                        onChange: (value: string) => updateFilter('type', value),
-                        options: ['Venda', 'Locação'],
-                        icon: <Building2 className="w-5 h-5 text-gray-400" />
-                      },
-                      {
-                        label: 'Localização',
-                        value: currentFilters.location,
-                        onChange: (value: string) => updateFilter('location', value),
-                        options: neighborhoods,
-                        icon: <MapPin className="w-5 h-5 text-gray-400" />
-                      },
-                      {
-                        label: 'Quartos',
-                        value: currentFilters.bedrooms,
-                        onChange: (value: string) => updateFilter('bedrooms', value),
-                        options: ['1', '2', '3', '4', '5+'].map(num => `${num} ${num === '1' ? 'Quarto' : 'Quartos'}`),
-                        icon: <Bed className="w-5 h-5 text-gray-400" />
-                      },
-                      {
-                        label: 'Banheiros',
-                        value: currentFilters.bathrooms,
-                        onChange: (value: string) => updateFilter('bathrooms', value),
-                        options: ['1', '2', '3', '4', '5+'].map(num => `${num} ${num === '1' ? 'Banheiro' : 'Banheiros'}`),
-                        icon: <Bath className="w-5 h-5 text-gray-400" />
-                      }
-                    ].map((field, index) => (
-                      <motion.div
-                        key={field.label}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mb-8 overflow-hidden"
+            >
+              <div className="bg-white p-6 rounded-2xl shadow-lg">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Tipo de Negócio
+                    </label>
+                    <div className="relative">
+                      <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <select
+                        value={filters.type}
+                        onChange={(e) => updateFilter('type', e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg
+                                 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       >
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          {field.label}
-                        </label>
-                        <div className="relative group">
-                          <select
-                            value={field.value}
-                            onChange={(e) => field.onChange(e.target.value)}
-                            className="w-full pl-11 pr-4 py-3 bg-white border border-gray-300 rounded-lg
-                                   focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                   transition-all duration-200 appearance-none
-                                   hover:border-blue-400"
-                          >
-                            <option value="">Todos</option>
-                            {field.options.map((opt) => (
-                              <option key={opt} value={opt}>
-                                {opt}
-                              </option>
-                            ))}
-                          </select>
-                          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none
-                                      group-hover:text-blue-500 transition-colors duration-200">
-                            {field.icon}
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                        <option value="">Todos os tipos</option>
+                        <option value="Venda">Venda</option>
+                        <option value="Locação">Locação</option>
+                      </select>
+                    </div>
                   </div>
 
-                  {Object.values(currentFilters).some(value => value) && (
-                    <motion.button
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      onClick={clearAllFilters}
-                      className="mt-6 text-red-600 hover:text-red-700 text-sm font-medium
-                               flex items-center gap-2 transition-colors duration-200"
-                    >
-                      <X className="w-4 h-4" />
-                      Limpar todos os filtros
-                    </motion.button>
-                  )}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Localização
+                    </label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <select
+                        value={filters.location}
+                        onChange={(e) => updateFilter('location', e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg
+                                 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="">Todas as localizações</option>
+                        {neighborhoods.map(neighborhood => (
+                          <option key={neighborhood} value={neighborhood}>
+                            {neighborhood}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Quartos
+                    </label>
+                    <div className="relative">
+                      <Bed className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <select
+                        value={filters.bedrooms}
+                        onChange={(e) => updateFilter('bedrooms', e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg
+                                 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="">Qualquer quantidade</option>
+                        {[1, 2, 3, 4, '5+'].map(num => (
+                          <option key={num} value={num}>
+                            {num} {num === 1 ? 'Quarto' : 'Quartos'}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Banheiros
+                    </label>
+                    <div className="relative">
+                      <Bath className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <select
+                        value={filters.bathrooms}
+                        onChange={(e) => updateFilter('bathrooms', e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg
+                                 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="">Qualquer quantidade</option>
+                        {[1, 2, 3, 4, '5+'].map(num => (
+                          <option key={num} value={num}>
+                            {num} {num === 1 ? 'Banheiro' : 'Banheiros'}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Preço Mínimo
+                    </label>
+                    <input
+                      type="number"
+                      value={filters.minPrice}
+                      onChange={(e) => updateFilter('minPrice', e.target.value)}
+                      placeholder="R$ Mínimo"
+                      className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg
+                               focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Preço Máximo
+                    </label>
+                    <input
+                      type="number"
+                      value={filters.maxPrice}
+                      onChange={(e) => updateFilter('maxPrice', e.target.value)}
+                      placeholder="R$ Máximo"
+                      className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg
+                               focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-4"
-          >
-            Imóveis Encontrados
-          </motion.h1>
-          
-          <div className="flex flex-wrap gap-2 mb-4">
-            {Object.entries(currentFilters).map(([key, value]) => 
-              value && (
-                <motion.span
-                  key={key}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-medium
-                           flex items-center gap-2 shadow-sm"
-                >
-                  {key === 'type' && 'Tipo: '}
-                  {key === 'location' && 'Localização: '}
-                  {key === 'bedrooms' && 'Quartos: '}
-                  {key === 'bathrooms' && 'Banheiros: '}
-                  {value}
-                  <button 
-                    onClick={() => removeFilter(key)}
-                    className="hover:text-blue-900 transition-colors duration-200"
+
+                {Object.values(filters).some(value => value) && (
+                  <button
+                    onClick={clearFilters}
+                    className="mt-6 text-red-600 hover:text-red-700 text-sm font-medium
+                             flex items-center gap-2"
                   >
                     <X className="w-4 h-4" />
+                    Limpar todos os filtros
                   </button>
-                </motion.span>
-              )
-            )}
-          </div>
-          
-          <p className="text-gray-600 font-medium">
-            {properties.length} {properties.length === 1 ? 'imóvel encontrado' : 'imóveis encontrados'}
-          </p>
-        </motion.div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {properties.length === 0 ? (
+        {filteredProperties.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -281,15 +328,12 @@ const PropertyList = () => {
             <p className="text-gray-600 text-xl mb-6">
               Nenhum imóvel encontrado com os filtros selecionados.
             </p>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={clearAllFilters}
-              className="text-blue-600 hover:text-blue-700 font-medium text-lg
-                       transition-colors duration-200"
+            <button
+              onClick={clearFilters}
+              className="text-blue-600 hover:text-blue-700 font-medium text-lg"
             >
               Limpar filtros
-            </motion.button>
+            </button>
           </motion.div>
         ) : (
           <motion.div
@@ -298,7 +342,7 @@ const PropertyList = () => {
             transition={{ duration: 0.5 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {properties.map((property, index) => (
+            {filteredProperties.map((property, index) => (
               <motion.div
                 key={property._id}
                 initial={{ opacity: 0, y: 20 }}

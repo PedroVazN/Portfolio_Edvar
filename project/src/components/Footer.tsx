@@ -16,7 +16,7 @@ const Footer = () => {
               />
             </div>
             <p className="text-gray-400 leading-relaxed text-sm">
-              Há mais de 15 anos no mercado imobiliário, oferecendo soluções personalizadas e atendimento exclusivo para realizar o sonho da sua casa própria.
+              Há mais de 7 anos no mercado imobiliário, oferecendo soluções personalizadas e atendimento exclusivo para realizar o sonho da sua casa própria.
             </p>
             <div className="flex space-x-4">
               <SocialLink href="https://www.instagram.com/corretor.edvar/" icon={<Instagram className="h-5 w-5" />} />

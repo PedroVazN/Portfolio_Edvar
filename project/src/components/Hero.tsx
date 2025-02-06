@@ -25,10 +25,23 @@ const Hero = () => {
     e.preventDefault();
     const queryParams = new URLSearchParams();
     
-    if (filters.type) queryParams.append('type', filters.type);
-    if (filters.location) queryParams.append('location', filters.location);
-    if (filters.bedrooms) queryParams.append('bedrooms', filters.bedrooms);
-    if (filters.bathrooms) queryParams.append('bathrooms', filters.bathrooms);
+    // Format the bedrooms and bathrooms values to match the PropertyList expectations
+    if (filters.type) {
+      queryParams.append('type', filters.type);
+    }
+    if (filters.location) {
+      queryParams.append('location', filters.location);
+    }
+    if (filters.bedrooms) {
+      // Extract just the number from strings like "2 Quartos"
+      const bedroomsNumber = filters.bedrooms.split(' ')[0];
+      queryParams.append('bedrooms', bedroomsNumber);
+    }
+    if (filters.bathrooms) {
+      // Extract just the number from strings like "2 Banheiros"
+      const bathroomsNumber = filters.bathrooms.split(' ')[0];
+      queryParams.append('bathrooms', bathroomsNumber);
+    }
     
     navigate(`/properties/search?${queryParams.toString()}`);
   };
@@ -105,14 +118,14 @@ const Hero = () => {
                     label: 'Quartos',
                     value: filters.bedrooms,
                     onChange: (value: string) => setFilters({ ...filters, bedrooms: value }),
-                    options: ['1', '2', '3', '4', '5+'].map(num => `${num} ${num === '1' ? 'Quarto' : 'Quartos'}`),
+                    options: ['1', '2', '3', '4', '5+'].map(num => num),
                     icon: Bed
                   },
                   {
                     label: 'Banheiros',
                     value: filters.bathrooms,
                     onChange: (value: string) => setFilters({ ...filters, bathrooms: value }),
-                    options: ['1', '2', '3', '4', '5+'].map(num => `${num} ${num === '1' ? 'Banheiro' : 'Banheiros'}`),
+                    options: ['1', '2', '3', '4', '5+'].map(num => num),
                     icon: Bath
                   }
                 ].map((field, index) => (
@@ -138,7 +151,8 @@ const Hero = () => {
                         <option value="">Selecione</option>
                         {field.options.map((opt) => (
                           <option key={opt} value={opt}>
-                            {opt}
+                            {opt} {field.label.includes('Quartos') && opt !== '5+' ? (opt === '1' ? 'Quarto' : 'Quartos') : ''}
+                            {field.label.includes('Banheiros') && opt !== '5+' ? (opt === '1' ? 'Banheiro' : 'Banheiros') : ''}
                           </option>
                         ))}
                       </select>
