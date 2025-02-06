@@ -60,17 +60,19 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
-          <motion.div 
+          <motion.div
             className="flex items-center"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <img
-              src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/logoedvar1.png?raw=true"
-              className="w-32 md:w-48 lg:w-48 max-w-full h-auto"
-              alt="Logo"
-            />
+            <a href="https://corretoredvar.com.br" target="_blank" rel="noopener noreferrer">
+              <img
+                src="https://github.com/PedroVazN/Portfolio_Edvar/blob/main/project/src/images/logoedvar1.png?raw=true"
+                className="w-32 md:w-48 lg:w-48 max-w-full h-auto"
+                alt="Logo"
+              />
+            </a>
           </motion.div>
 
           <div className="hidden md:flex items-center space-x-1">
