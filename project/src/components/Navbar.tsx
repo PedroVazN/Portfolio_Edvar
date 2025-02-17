@@ -109,17 +109,20 @@ const Navbar = () => {
                 />
               </motion.div>
             ))}
+            <a href='https://api.whatsapp.com/send/?phone=11947013673&text&type=phone_number&app_absent=0'>
             <motion.button
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+  
               className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-6 py-2.5 rounded-lg
                        font-medium shadow-md hover:shadow-lg transition-all duration-300
                        hover:from-blue-700 hover:to-blue-900"
             >
               Agende uma Consulta
             </motion.button>
+            </a>
           </div>
 
           <motion.div

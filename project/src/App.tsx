@@ -14,7 +14,8 @@ import Neighborhoods from './components/Neighborhoods';
 import PropertiesByNeighborhood from './components/PropertiesByNeighborhood';
 import PropertyList from './components/PropertyList';
 import AllProperties from './pages/AllProperties';
-
+import FeaturedProperty from './components/FeaturedProperty';
+import VersosIpiranga from './pages/VersosIpiranga';
 
 interface Property {
   _id: string;
@@ -72,6 +73,7 @@ function App() {
                   <Hero />
                   <Services />
                   <FeaturedAgent />
+                  <FeaturedProperty />
                   <PropertiesSection properties={properties} />
                   <Neighborhoods />
                   <Testimonials />
@@ -87,6 +89,7 @@ function App() {
             <Route path="/properties/search" element={<PropertyList />} />
             <Route path="/properties" element={<AllProperties />} />
             <Route path="/properties/neighborhood/:neighborhood" element={<PropertiesByNeighborhood />} />
+            <Route path="/versos-ipiranga" element={<VersosIpiranga />} />
           </Routes>
         </main>
         <Footer />
