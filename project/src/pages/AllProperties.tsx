@@ -43,7 +43,7 @@ const AllProperties = () => {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://back-end-portfolio-edvar.vercel.app/api/properties');
+        const response = await fetch('https://backendimoveis.vercel.app/api/properties');
         if (!response.ok) throw new Error('Falha ao carregar imóveis');
         const data = await response.json();
         setProperties(data);
