@@ -47,21 +47,21 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/50" />
       </div>
 
-      {/* Content Container */}
-      <div className="relative min-h-[80vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+      {/* Content Container - ajustando padding vertical */}
+      <div className="relative min-h-[80vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="w-full max-w-7xl mx-auto">
-          {/* Hero Text */}
+          {/* Hero Text - ajustando tamanhos de texto e espaçamento */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+            className="text-center mb-8 sm:mb-12"
           >
             <motion.h1 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight"
             >
               Encontre o Imóvel dos{' '}
               <span className="text-blue-400">Seus Sonhos</span>
@@ -71,23 +71,23 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed"
             >
               Explore nossa seleção exclusiva de imóveis em São Paulo e encontre o lugar perfeito para chamar de seu
             </motion.p>
           </motion.div>
 
-          {/* Search Form */}
+          {/* Search Form - ajustando padding e espaçamento */}
           <motion.form 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             onSubmit={handleSearch}
-            className="w-full max-w-3xl mx-auto"
+            className="w-full max-w-3xl mx-auto px-2 sm:px-0"
           >
-            <div className="backdrop-blur-md bg-white/95 rounded-2xl shadow-2xl p-6 sm:p-8">
-              {/* Filter Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+            <div className="backdrop-blur-md bg-white/95 rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8">
+              {/* Filter Grid - ajustando gap e padding */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
                 {[
                   {
                     label: 'Quartos',
@@ -144,16 +144,16 @@ const Hero = () => {
                 ))}
               </div>
 
-              {/* Search Button */}
+              {/* Search Button - ajustando padding */}
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-8 rounded-xl
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 sm:py-4 px-6 sm:px-8 rounded-xl
                          font-semibold shadow-lg hover:shadow-xl transition-all duration-300 
-                         flex items-center justify-center space-x-3 text-lg"
+                         flex items-center justify-center space-x-2 sm:space-x-3 text-base sm:text-lg"
               >
-                <Search className="w-6 h-6" />
+                <Search className="w-5 h-5 sm:w-6 sm:h-6" />
                 <span>Buscar em Todos os Imóveis</span>
               </motion.button>
             </div>
