@@ -15,7 +15,7 @@ const neighborhoods = [
   },
   {
     name: 'Vila Mariana',
-    image: 'https://www.mdl.com.br/wp-content/uploads/2019/09/bairro-vila-mariana.png',
+    image: 'https://images.ctfassets.net/uzue8dgm4ubt/7uZVwhhqewrhFSZ4QmKo0Y/92a7c1867ea38488fdf657f0c16f5591/Vila_Mariana_Mosaic__4_.jpg',
     description: 'Ótima localização próxima ao metrô'
   },
   {
